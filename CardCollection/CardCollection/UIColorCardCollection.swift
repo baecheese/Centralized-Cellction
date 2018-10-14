@@ -90,6 +90,8 @@ extension UIColorCardCollection: UICollectionViewDataSource {
 
 extension UIColorCardCollection: UICollectionViewDelegate {
 
+  // bug note : 일정 속도 이하면 바로 visible cell 로 갈 수 있도록
+  // 너무 느릿할 경우 decelerating할 때까지 기다렸다가 cell을 찾아감
   func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
     guard let currentIndexPath = collectionView.visibleIndexPath, !isMovingPage else { return }
     isMovingPage = true
@@ -115,6 +117,7 @@ extension UIColorCardCollection: UICollectionViewDelegate {
 }
 
 extension UICollectionView {
+  // bug note : 1. spacing에 가면 indexpath가 안잡힘
   var visibleIndexPath: IndexPath? {
     var visibleRect = CGRect()
     visibleRect.origin = contentOffset
